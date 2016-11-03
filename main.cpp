@@ -3,7 +3,7 @@
 #include <QDesktopWidget>
 
 #include <QApplication>
-
+//Lal's comment
 int main(int argc, char *argv[])
 {
   // create main event loop handler and parse command line arguments
