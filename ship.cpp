@@ -27,3 +27,4 @@ void  Ship::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 
 }
 
+//comment
