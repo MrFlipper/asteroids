@@ -17,13 +17,17 @@ Ship::Ship( qreal x, qreal y ) : QGraphicsItem()
 void Ship::keyPressEvent(QKeyEvent *event)
 {
   if(event->key() == Qt::Key_Left){
-      setPos(x()-10,y());
+      if(rotation == 0) rotation = 360;
+      setRotation(rotation -= 10);
+
   }
   else if(event->key() == Qt::Key_Right){
-      setPos(x()+10,y());
+      setRotation(rotation += 10);
+      if(rotation == 360) rotation = 0;
   }
   else if(event->key() == Qt::Key_Up){
-      setPos(x(),y()-10);
+      setPos(x()+cos(rotation),y()+sin(rotation));
+      //as you can see, I try to use sin and cos since it rotates like a circle, but results are strange.
   }
   else if(event->key() == Qt::Key_Down){
       setPos(x(),y()+10);
@@ -40,6 +44,7 @@ void  Ship::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
     painter->drawLine(  -8,  0,  8, 0 );
     painter->drawLine( -8, 0,  0,  -18 );
     painter->drawLine( 8, 0, 0,  -18 );
-
 }
+
+
 
