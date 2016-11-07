@@ -16,21 +16,22 @@ Ship::Ship( qreal x, qreal y ) : QGraphicsItem()
 
 void Ship::keyPressEvent(QKeyEvent *event)
 {
-  if(event->key() == Qt::Key_Left){
+  if(event->key() == Qt::Key_Left){//rotates left by subracting from rotation angle
       if(rotation == 0) rotation = 360;
       setRotation(rotation -= 10);
 
   }
-  else if(event->key() == Qt::Key_Right){
+  else if(event->key() == Qt::Key_Right){//rotates right by adding to rotation angle
+     if(rotation == 360) rotation = 0;
       setRotation(rotation += 10);
-      if(rotation == 360) rotation = 0;
   }
   else if(event->key() == Qt::Key_Up){
-      setPos(x()+cos(rotation),y()+sin(rotation));
-      //as you can see, I try to use sin and cos since it rotates like a circle, but results are strange.
-  }
-  else if(event->key() == Qt::Key_Down){
-      setPos(x(),y()+10);
+      setPos(x()+ sin(rotation*(3.141592654/180))*5,y()- cos(rotation*(3.141592654/180))*5);//moves ship relative to angle of rotation
+      //These if statements puts the ship on the opposite side of the screen should it go off screen
+      if (pos(),x() >= xbounds/2) setPos(xbounds/2 - xbounds,y());
+      else if (pos(),x() <= (xbounds/2 - xbounds)) setPos(xbounds/2,y());
+      if (pos(),y() >= ybounds/2) setPos(x(),ybounds/2 - ybounds);
+      else if (pos(),y() <= (ybounds/2 - ybounds)) setPos(x(),ybounds/2);
   }
 }
 
