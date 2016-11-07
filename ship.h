@@ -10,12 +10,12 @@
 class Ship : public QGraphicsItem
 {
 public:
-  Ship( qreal, qreal );                          // constructor
+    Ship( qreal, qreal );// constructor
 
-  void     paint( QPainter*,
-                  const QStyleOptionGraphicsItem*,
-                  QWidget* );                       // implement virtual paint function
-  QRectF   boundingRect() const
+    void keyPressEvent(QKeyEvent *event);
+    void paint( QPainter*, const QStyleOptionGraphicsItem*, QWidget* );// implement virtual paint function
+
+    QRectF   boundingRect() const
     { return QRectF(0, 0, 0, 0);//bounding rectangle allowing no screen movement
     }
 };

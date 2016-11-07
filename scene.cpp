@@ -33,6 +33,9 @@ void  Scene::mousePressEvent( QGraphicsSceneMouseEvent* event )
   emit message( QString("Ship add at %1,%2").arg(x).arg(y) );
 }
 void Scene::drawShip(){//draws ship
-addItem( new Ship(0,0));
+    Ship *s = new Ship(0, 0);
+    addItem(s);
+    s->setFlag(QGraphicsItem::ItemIsFocusable);
+    s->setFocus();//Sets focus on s, so it can be moved
 }
 

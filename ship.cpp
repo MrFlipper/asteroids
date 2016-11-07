@@ -1,7 +1,7 @@
 #include "ship.h"
-
+#include <QKeyEvent>
 #include <QPainter>
-
+#include <QDebug>
 /*************************************************************************************/
 /******************* Represents a ship in the simulation ********************/
 /*************************************************************************************/
@@ -11,7 +11,23 @@
 Ship::Ship( qreal x, qreal y ) : QGraphicsItem()
 {
   // set Ship pixmap and position
-  setPos( x, y );
+    setPos( x, y );
+}
+
+void Ship::keyPressEvent(QKeyEvent *event)
+{
+  if(event->key() == Qt::Key_Left){
+      setPos(x()-10,y());
+  }
+  else if(event->key() == Qt::Key_Right){
+      setPos(x()+10,y());
+  }
+  else if(event->key() == Qt::Key_Up){
+      setPos(x(),y()-10);
+  }
+  else if(event->key() == Qt::Key_Down){
+      setPos(x(),y()+10);
+  }
 }
 
 /************************************** paint ****************************************/
@@ -27,4 +43,3 @@ void  Ship::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 
 }
 
-//comment
