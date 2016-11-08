@@ -1,7 +1,10 @@
 #include "ship.h"
+#include "scene.h"
 #include <QKeyEvent>
 #include <QPainter>
 #include <QDebug>
+#include <QtMath>
+#include "bullet.h"
 /*************************************************************************************/
 /******************* Represents a ship in the simulation ********************/
 /*************************************************************************************/
@@ -12,6 +15,9 @@ Ship::Ship( qreal x, qreal y ) : QGraphicsItem()
 {
   // set Ship pixmap and position
     setPos( x, y );
+    rotation = 0;
+    xbounds=dw.width()*0.8;
+    ybounds=dw.height()*0.8;
 }
 
 void Ship::keyPressEvent(QKeyEvent *event)
@@ -19,19 +25,28 @@ void Ship::keyPressEvent(QKeyEvent *event)
   if(event->key() == Qt::Key_Left){//rotates left by subracting from rotation angle
       if(rotation == 0) rotation = 360;
       setRotation(rotation -= 10);
-
   }
   else if(event->key() == Qt::Key_Right){//rotates right by adding to rotation angle
      if(rotation == 360) rotation = 0;
       setRotation(rotation += 10);
   }
   else if(event->key() == Qt::Key_Up){
+
       setPos(x()+ sin(rotation*(3.141592654/180))*5,y()- cos(rotation*(3.141592654/180))*5);//moves ship relative to angle of rotation
       //These if statements puts the ship on the opposite side of the screen should it go off screen
-      if (pos(),x() >= xbounds/2) setPos(xbounds/2 - xbounds,y());
-      else if (pos(),x() <= (xbounds/2 - xbounds)) setPos(xbounds/2,y());
-      if (pos(),y() >= ybounds/2) setPos(x(),ybounds/2 - ybounds);
-      else if (pos(),y() <= (ybounds/2 - ybounds)) setPos(x(),ybounds/2);
+      if (pos(),x() >= xbounds/2)
+          setPos(xbounds/2 - xbounds,y());
+      else if (pos(),x() <= (xbounds/2 - xbounds))
+          setPos(xbounds/2,y());
+      if (pos(),y() >= ybounds/2)
+          setPos(x(),ybounds/2 - ybounds);
+      else if (pos(),y() <= (ybounds/2 - ybounds))
+          setPos(x(),ybounds/2);
+  }
+  else if(event->key() == Qt::Key_Space){
+      Bullet * bull = new Bullet();
+      bull->setPos(x(),y());
+      scene()->addItem(bull);
   }
 }
 

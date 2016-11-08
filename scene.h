@@ -3,7 +3,7 @@
 #define SCENE_H
 
 class QGraphicsSceneMouseEvent;
-
+#include "ship.h"
 #include <QGraphicsScene>
 
 /*************************************************************************************/
@@ -16,12 +16,10 @@ class Scene : public QGraphicsScene
 public:
   Scene();                                      // constructor
   void drawShip();//create ship in center of screen
+  Ship *s;
+  void drawAsteroid();
 signals:
   void  message( QString );// info text message signal
-
-protected:
-  void  mousePressEvent( QGraphicsSceneMouseEvent* );// receive mouse press events
-
 };
 
 #endif  // SCENE_H

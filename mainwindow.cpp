@@ -3,6 +3,7 @@
 #include "scene.h"
 #include <QMenuBar>
 #include <QStatusBar>
+#include <QKeyEvent>
 #include <QGraphicsView>
 #include <QDesktopWidget>
 #include <QMainWindow>
@@ -55,3 +56,6 @@ void MainWindow::startGame()
     view->setFrameStyle( 0 );
     setCentralWidget( view );
 }
+
+
+

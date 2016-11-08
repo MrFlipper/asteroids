@@ -1,8 +1,10 @@
 
 #include "scene.h"
 #include "ship.h"
-
+#include <QKeyEvent>
 #include <QGraphicsSceneMouseEvent>
+#include <QTimer>
+#include "asteroids.h"
 
 /*************************************************************************************/
 /******************** Scene representing the simulated landscape *********************/
@@ -15,27 +17,17 @@ Scene::Scene() : QGraphicsScene()
   // create invisible item to provide default top-left anchor to scene
   addLine( 0, 0, 0, 1, QPen(Qt::transparent, 1) );
   drawShip();
-}
-
-/********************************** mousePressEvent **********************************/
-
-void  Scene::mousePressEvent( QGraphicsSceneMouseEvent* event )
-{
-  // only interested if left mouse button pressed
-  if ( event->button() != Qt::LeftButton ) return;
-
-  // create new Ship at point where user clicked scene
-  qreal  x = event->scenePos().x();
-  qreal  y = event->scenePos().y();
-  addItem( new Ship( x, y ) );
-
-  // emit informative message
-  emit message( QString("Ship add at %1,%2").arg(x).arg(y) );
+  drawAsteroid();
+  QTimer * timer = new QTimer();
+  connect(timer,SIGNAL(timeout()),this,SLOT(update()));
+  timer->start(1);
 }
 void Scene::drawShip(){//draws ship
-    Ship *s = new Ship(0, 0);
+    s= new Ship(0 , 0);
     addItem(s);
     s->setFlag(QGraphicsItem::ItemIsFocusable);
     s->setFocus();//Sets focus on s, so it can be moved
 }
-
+void Scene::drawAsteroid(){
+        addItem( new Asteroid(1, 100));
+}

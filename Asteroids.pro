@@ -15,10 +15,14 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     scene.cpp \
-    ship.cpp
+    ship.cpp \
+    bullet.cpp \
+    asteroids.cpp
 
 HEADERS  += mainwindow.h \
     scene.h \
-    ship.h
+    ship.h \
+    bullet.h \
+    asteroids.h
 
 FORMS    += mainwindow.ui
