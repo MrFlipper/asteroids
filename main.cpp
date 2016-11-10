@@ -1,9 +1,16 @@
+//Asteroids Project
+//Group 2
+//Travis Walker
+//Preston Moore
+//Rohin Singh
+//Edgar Gomez
+//Khoa Truong
+//Lal Angdembe
+
 #include "scene.h"
 #include "mainwindow.h"
 #include <QDesktopWidget>
-
 #include <QApplication>
-//Lal's comment
 int main(int argc, char *argv[])
 {
   // create main event loop handler and parse command line arguments

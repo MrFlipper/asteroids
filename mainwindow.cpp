@@ -8,25 +8,14 @@
 #include <QDesktopWidget>
 #include <QMainWindow>
 
-/*************************************************************************************/
-/*********************** Main application window for QSimulate ***********************/
-/*************************************************************************************/
-
-/************************************ constuctor *************************************/
-//Comment
-MainWindow::MainWindow() : QMainWindow()
+MainWindow::MainWindow() : QMainWindow()//constructor
 {
-  // add drop down menus (currently empty)
+  // add drop down menus
   QMenu* fileMenu = menuBar()->addMenu("&File");
   fileMenu->addAction("&New",this,SLOT(startGame()));
   fileMenu->addAction("&Close",this,SLOT(close()));
   fileMenu->addAction("&Quit",this,SLOT(close()));
-  //QMenu*  editMenu = menuBar()->addMenu( "&New" );
-  //QMenu*  viewMenu = menuBar()->addMenu( "&Close" );
- // menuBar()->addMenu("&Edit");
- // menuBar()->addMenu("&View");
- // menuBar()->addMenu("&Simulate");
- // menuBar()->addMenu("&Help");
+
 
   // create scene and central widget view of scene
    startGame();
@@ -35,7 +24,7 @@ MainWindow::MainWindow() : QMainWindow()
   connect( m_scene, SIGNAL(message(QString)), this, SLOT(showMessage(QString)) );
 
   // add status bar message
-  statusBar()->showMessage("QSimulate has started");
+  statusBar()->showMessage("Game has started");
 
 }
 

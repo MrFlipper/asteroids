@@ -2,8 +2,10 @@
 #define BULLET_H
 
 #include <QGraphicsRectItem>
+#include "ship.h"
+//class for the bullet
 
-class Bullet: public QObject ,public QGraphicsRectItem
+class Bullet: public QObject ,public QGraphicsRectItem, public Ship
 {
     Q_OBJECT
     public:
@@ -13,7 +15,7 @@ class Bullet: public QObject ,public QGraphicsRectItem
         }
 
     public slots:
-        void move()
+        void move()//controls movement of bullet
         {
             setPos(x(),y()-10);
         }

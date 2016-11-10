@@ -14,12 +14,12 @@ class Scene : public QGraphicsScene
 {
   Q_OBJECT
 public:
-  Scene();                                      // constructor
-  void drawShip();//create ship in center of screen
-  Ship *s;
-  void drawAsteroid();
+    Scene();                                      // constructor
+    void drawShip();//create ship in center of screen
+    Ship *s; //pointer to the ship
+    void drawAsteroid();
 signals:
-  void  message( QString );// info text message signal
+    void  message( QString );// info text message signal
 };
 
 #endif  // SCENE_H

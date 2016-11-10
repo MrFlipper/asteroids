@@ -19,7 +19,6 @@ public:
 public slots:
   void showMessage( QString );        // show message on status bar
   void startGame();
- // void keyPressEvent(QKeyEvent *event);
 
 private:
   Scene*       m_scene;               // scene representing the simulated landscape

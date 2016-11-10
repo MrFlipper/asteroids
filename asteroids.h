@@ -13,7 +13,7 @@ class Asteroid : public QObject, public QGraphicsItem
 {
     Q_OBJECT
     public:
-        Asteroid();
+        Asteroid();//default constructor
         Asteroid(qreal, qreal);
         void  paint( QPainter*, const QStyleOptionGraphicsItem*, QWidget* );
         QRectF    boundingRect() const{ //bounding rectangle allowing no screen movement
@@ -23,8 +23,9 @@ class Asteroid : public QObject, public QGraphicsItem
         double ybounds;
         QDesktopWidget dw;
     public slots:
-        void change(){
+        void move(){//changes position on a timer
             setPos(x(),y()-10);
+            //wraps asteroid around if it goes off screen
             if (pos(),x() >= xbounds/2)
                 setPos(xbounds/2 - xbounds,y());
             else if (pos(),x() <= (xbounds/2 - xbounds))
