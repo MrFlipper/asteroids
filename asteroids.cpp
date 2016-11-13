@@ -1,9 +1,12 @@
-#include "asteroids.h"
 #include <QGraphicsScene>
 #include <QPainter>
 #include <QList>
 #include <QTimer>
 #include <QObject>
+//Necesarry Header files
+#include "list.h"
+#include "asteroids.h"
+
 /*************************************************************************************/
 
 /******************* Represents an asteroid in the simulation ********************/
@@ -25,4 +28,3 @@ void  Asteroid::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->setPen( QPen( Qt::red, 2 ) );
     painter->drawEllipse(0,0,100,100);
 }
-

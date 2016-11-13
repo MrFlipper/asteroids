@@ -2,10 +2,9 @@
 #define BULLET_H
 
 #include <QGraphicsRectItem>
-#include "ship.h"
 //class for the bullet
 
-class Bullet: public QObject ,public QGraphicsRectItem, public Ship
+class Bullet: public QObject ,public QGraphicsRectItem
 {
     Q_OBJECT
     public:

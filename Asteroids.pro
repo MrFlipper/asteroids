@@ -17,12 +17,14 @@ SOURCES += main.cpp\
     scene.cpp \
     ship.cpp \
     bullet.cpp \
-    asteroids.cpp
+    asteroids.cpp \
+    list.cpp
 
 HEADERS  += mainwindow.h \
     scene.h \
     ship.h \
     bullet.h \
-    asteroids.h
+    asteroids.h \
+    list.h
 
 FORMS    += mainwindow.ui
