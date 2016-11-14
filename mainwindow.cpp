@@ -15,8 +15,6 @@ MainWindow::MainWindow() : QMainWindow(){
   fileMenu->addAction("&New",this,SLOT(startGame()));
   fileMenu->addAction("&Close",this,SLOT(close()));
   fileMenu->addAction("&Quit",this,SLOT(close()));
-  ui->setupUi(this);
-  this->setStyleSheet("background-color: black;");
 
   // create scene and central widget view of scene
    startGame();
