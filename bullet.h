@@ -11,14 +11,12 @@ class Bullet: public QObject ,public QGraphicsRectItem
     public:
         Bullet();
         int  angle; //angle of bullet
+        void paint(QPainter*, const QStyleOptionGraphicsItem *option, QWidget *widget);// implement virtual paint function
         QRectF   boundingRect() const
         { return QRectF(0, 0, 0, 0);//bounding rectangle allowing no screen movement
         }
 
     public slots:
-        void move()//controls movement of bullet
-        {
-            setPos(x() + 10*sin(angle*(3.141592654/180)),y()- 10*cos(angle*(3.141592654/180)));
-        }
+        void move();
 };
 #endif // BULLET_H

@@ -50,11 +50,48 @@ void Ship::keyPressEvent(QKeyEvent *event)//controls ship by key presses
     }
     else if(event->key() == Qt::Key_Space){//shoots bullet from ship (only moves up for now)
         Bullet * bull = new Bullet();
-        bull->setPos(x(),y());
+
+        //Set Position of the Bullet to match orientation of the ship
+        if(rotation == 0 or rotation == 360)
+            bull->setPos(x()+14,y());
+        if(rotation == 30)
+            bull->setPos(x()+13,y()+6);
+        if(rotation == 60)
+            bull->setPos(x()+14, y()+10);
+        if(rotation == 90)
+            bull->setPos(x(), y()+14);
+        if(rotation == 120)
+            bull->setPos(x()-6, y()+13);
+        if(rotation == 150)
+            bull->setPos(x()-10,y()+14);
+        if(rotation == 180)
+            bull->setPos(x()-14,y());
+        if(rotation == 210)
+            bull->setPos(x()-13,y()-6);
+        if(rotation == 240)
+            bull->setPos(x()-14,y()-10);
+        if(rotation == 270)
+            bull->setPos(x(),y()-14);
+        if(rotation == 300)
+            bull->setPos(x()+6,y()-13);
+        if(rotation == 330)
+            bull->setPos(x()+10,y()-14);
+        //End Bullet Position
+
         bull->angle = rotation;
         bull->setRotation(rotation);
-        scene()->addItem(bull);
-        bullets.append(bull);
+        if(bullets.length()<10){
+            scene()->addItem(bull);
+            bullets.append(bull);
+        }
+        if(not bullets.isEmpty()){
+            for(int i = 0;i<bullets.length(); i++){
+                if(bullets[i]->x()>xbounds/2 or bullets[i]->x()<((xbounds/2)*-1) or bullets[i]->y()>ybounds/2 or bullets[i]->y()<((ybounds/2)*-1)){
+                    bullets.removeAt(i);
+                    scene()->removeItem(bullets[i]);
+                }
+            }
+        }
     }
 }
 
@@ -76,11 +113,22 @@ void Ship::move(){
 void  Ship::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     // paint ship symbol, must be smaller than bounding rectangle
-    painter->setRenderHint( QPainter::Antialiasing );
-    painter->setPen( QPen( Qt::black, 2 ) );
-    painter->drawLine(  -8,  0,  8, 0 );
-    painter->drawLine( -8, 0,  0,  -18 );
-    painter->drawLine( 8, 0, 0,  -18 );
+//    QPainterPath path;
+//    painter->setRenderHint( QPainter::Antialiasing );
+//    painter->setPen( QPen( Qt::white, 2 ) );
+//    painter->drawLine(  -8,  0,  8, 0 );
+//    painter->drawLine( -8, 0,  0,  -18 );
+//    painter->drawLine( 8, 0, 0,  -18 );
+//    painter->fillPath (path, QBrush (QColor ("white")));
+    QRectF rect = QRectF(0, 0, 30, 30);
+
+    QPainterPath path;
+    path.moveTo(rect.left() + (rect.width() / 2), rect.top());
+    path.lineTo(rect.bottomLeft());
+    path.lineTo(rect.bottomRight());
+    path.lineTo(rect.left() + (rect.width() / 2), rect.top());
+
+    painter->fillPath(path, QBrush(QColor ("white")));
 }
 
 

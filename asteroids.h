@@ -5,6 +5,7 @@
 #include <QTimer>
 #include <QObject>
 #include <QDesktopWidget>
+#include <QList>
 /*************************************************************************************/
 /******************* Represents an asteroid in the simulation ********************/
 /*************************************************************************************/
@@ -13,8 +14,7 @@ class Asteroid : public QObject, public QGraphicsItem
 {
     Q_OBJECT
     public:
-        Asteroid();//default constructor
-        Asteroid(qreal, qreal);
+        Asteroid(); //default constructor
         void  paint( QPainter*, const QStyleOptionGraphicsItem*, QWidget* );
         QRectF    boundingRect() const{ //bounding rectangle allowing no screen movement
             return QRectF(0,0,0,0);
@@ -22,19 +22,9 @@ class Asteroid : public QObject, public QGraphicsItem
         double xbounds;
         double ybounds;
         QDesktopWidget dw;
+        void setAngle(int& x, int& y); //Decides which direction astroid flys (Glitchy)
     public slots:
-        void move(){//changes position on a timer
-            setPos(x(),y()-10);
-            //wraps asteroid around if it goes off screen
-            if (pos(),x() >= xbounds/2)
-                setPos(xbounds/2 - xbounds,y());
-            else if (pos(),x() <= (xbounds/2 - xbounds))
-                setPos(xbounds/2,y());
-            if (pos(),y() >= ybounds/2)
-                setPos(x(),ybounds/2 - ybounds);
-            else if (pos(),y() <= (ybounds/2 - ybounds))
-                setPos(x(),ybounds/2);
-        }
+        void move();
 };
 #endif // ASTEROIDS_H
 

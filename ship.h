@@ -15,7 +15,7 @@ class Ship : public QObject, public QGraphicsItem
     Q_OBJECT
 public:
     Ship();//default constructor
-    Ship( qreal, qreal );// constructor 
+    Ship(qreal, qreal);// constructor
     double rotation; //rotation angle
     double xaccel;
     double yaccel;

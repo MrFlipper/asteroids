@@ -20,9 +20,8 @@ public:
     Scene();                                      // constructor
     void drawShip();//create ship in center of screen
     Ship *s; //pointer to the ship
-    //QList<Bullet*> bullets;
-    QList<Asteroid*> asteroids;
-    void drawAsteroid();
+    QList<Asteroid*> roids; //List of Asteroids
+    void drawAsteroid(); //Draws an Asteroid
 signals:
     void  message( QString );// info text message signal
 };
