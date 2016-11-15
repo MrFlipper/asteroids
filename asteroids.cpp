@@ -1,19 +1,21 @@
-#include <QGraphicsScene>
-#include <QPainter>
-#include <QList>
-#include <QTimer>
-#include <QObject>
-//Necesarry Header files
-#include "asteroids.h"
-
 /*************************************************************************************/
 
 /******************* Represents an asteroid in the simulation ********************/
 
 /*************************************************************************************/
+
+#include <QGraphicsScene>
+#include <QPainter>
+#include <QList>
+#include <QTimer>
+#include <QObject>
+#include "asteroids.h"
+
+
 Asteroid::Asteroid(){
     xbounds=dw.width()*0.8;
     ybounds=dw.height()*0.8;
+    setAngle(x_move, y_move);
     QTimer *times = new QTimer();//checks for movement of asteroid based on time
     connect(times,SIGNAL(timeout()),this,SLOT(move()));
     times->start(50);
@@ -27,8 +29,8 @@ void  Asteroid::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 }
 
 void Asteroid::move(){//changes position on a timer
-    int x_move,y_move;
-    setAngle(x_move,y_move);
+    //int x_move,y_move;
+    //setAngle(x_move,y_move);
     setPos(x()-x_move,y()-y_move);
     //wraps asteroid around if it goes off screen
     if (pos(),x() >= xbounds/2)

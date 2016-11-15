@@ -6,11 +6,11 @@
 //Edgar Gomez
 //Khoa Truong
 //Lal Angdembe
-
-#include "scene.h"
-#include "mainwindow.h"
 #include <QDesktopWidget>
 #include <QApplication>
+#include "scene.h"
+#include "mainwindow.h"
+
 int main(int argc, char *argv[])
 {
   // create main event loop handler and parse command line arguments

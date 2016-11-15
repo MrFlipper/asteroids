@@ -1,7 +1,8 @@
+#include <QTimer>
 #include "asteroids.h"
 #include "scene.h"
 #include "ship.h"
-#include <QTimer>
+
 
 // scene simulates landscape
 Scene::Scene() : QGraphicsScene()//constructor

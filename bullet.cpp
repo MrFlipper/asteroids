@@ -1,9 +1,8 @@
-#include "bullet.h"
 #include <QGraphicsScene>
 #include <QTimer>
 #include <QGraphicsRectItem>
 #include <QPainter>
-
+#include "bullet.h"
 Bullet::Bullet()
 {
     QTimer *timer = new QTimer();

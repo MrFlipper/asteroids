@@ -1,15 +1,16 @@
-#include "ship.h"
-#include "scene.h"
-#include "bullet.h"
+/*************************************************************************************/
+/******************* Represents a ship in the simulation *****************************/
+/*************************************************************************************/
+
 #include <QKeyEvent>
 #include <QPainter>
 #include <QDebug>
 #include <QTimer>
 #include <QObject>
 #include <QtMath>
-/*************************************************************************************/
-/******************* Represents a ship in the simulation ********************/
-/*************************************************************************************/
+#include "ship.h"
+#include "scene.h"
+#include "bullet.h"
 
 /************************************ constuctor *************************************/
 
@@ -29,7 +30,9 @@ Ship::Ship( qreal x, qreal y ) : QGraphicsItem()
     times->start(50);
 }
 
-void Ship::keyPressEvent(QKeyEvent *event)//controls ship by key presses
+/***************Controls Ship by checking if certain keys have been pressed**********/
+
+void Ship::keyPressEvent(QKeyEvent *event)
 {
     if(event->key() == Qt::Key_Left){//rotates left by subracting from rotation angle
         if(rotation == 0) rotation = 360;
@@ -52,6 +55,7 @@ void Ship::keyPressEvent(QKeyEvent *event)//controls ship by key presses
         Bullet * bull = new Bullet();
 
         //Set Position of the Bullet to match orientation of the ship
+            //Possibly a better way to get the same results
         if(rotation == 0 or rotation == 360)
             bull->setPos(x()+14,y());
         if(rotation == 30)
@@ -120,8 +124,10 @@ void  Ship::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 //    painter->drawLine( -8, 0,  0,  -18 );
 //    painter->drawLine( 8, 0, 0,  -18 );
 //    painter->fillPath (path, QBrush (QColor ("white")));
-    QRectF rect = QRectF(0, 0, 30, 30);
 
+   //Creates a ship by drawing a rectangle and tracing a path
+        //May create a bounds issue later when dealing with collisions (Untested)
+    QRectF rect = QRectF(0, 0, 30, 30);
     QPainterPath path;
     path.moveTo(rect.left() + (rect.width() / 2), rect.top());
     path.lineTo(rect.bottomLeft());

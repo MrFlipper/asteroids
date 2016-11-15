@@ -4,7 +4,6 @@
 #include <QGraphicsView>
 #include <QDesktopWidget>
 #include <QMainWindow>
-//Included Headers
 #include "mainwindow.h"
 #include "scene.h"
 

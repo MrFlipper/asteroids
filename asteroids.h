@@ -23,6 +23,8 @@ class Asteroid : public QObject, public QGraphicsItem
         double ybounds;
         QDesktopWidget dw;
         void setAngle(int& x, int& y); //Decides which direction astroid flys (Glitchy)
+        int x_move;
+        int y_move;
     public slots:
         void move();
 };
