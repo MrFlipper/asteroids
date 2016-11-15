@@ -1,6 +1,8 @@
 #ifndef SHIP_H
 #define SHIP_H
 
+#include "bullet.h"
+#include <QList>
 #include <QObject>
 #include <QGraphicsItem>
 #include <QDesktopWidget>
@@ -20,6 +22,7 @@ public:
     QDesktopWidget dw;
     double xbounds;
     double ybounds;
+    QList<Bullet*> bullets;
     void keyPressEvent(QKeyEvent *event);
     void paint(QPainter*, const QStyleOptionGraphicsItem *option, QWidget *widget);// implement virtual paint function
     QRectF   boundingRect() const

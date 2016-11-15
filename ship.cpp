@@ -51,7 +51,10 @@ void Ship::keyPressEvent(QKeyEvent *event)//controls ship by key presses
     else if(event->key() == Qt::Key_Space){//shoots bullet from ship (only moves up for now)
         Bullet * bull = new Bullet();
         bull->setPos(x(),y());
+        bull->angle = rotation;
+        bull->setRotation(rotation);
         scene()->addItem(bull);
+        bullets.append(bull);
     }
 }
 
