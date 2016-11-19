@@ -77,13 +77,13 @@ void Ship::keyPressEvent(QKeyEvent *event)
                     bullets.removeAt(i);
                     scene()->removeItem(bullets[i]);
                 }
-                for(int j = 0; j<Scene().roids.length();j++){
+                /*for(int j = 0; j<Scene().roids.length();j++){
                     if(bullets[i]->collidesWithItem(Scene().roids[j])){
                         bullets.removeAt(i);
                         scene()->removeItem(bullets[i]);
                         scene()->removeItem(Scene().roids[j]);
                     }
-                }
+                }*/
             }
         }
     }
