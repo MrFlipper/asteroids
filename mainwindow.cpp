@@ -37,7 +37,7 @@ void MainWindow::startGame()
 {
     m_scene               = new Scene();
     QGraphicsView*   view = new QGraphicsView( m_scene );
-    view->setAlignment( Qt::AlignCenter | Qt::AlignCenter );
+    view->setAlignment( Qt::AlignLeft | Qt::AlignTop );
     view->setFrameStyle( 0 );
     m_scene->setBackgroundBrush(Qt::black);
     setCentralWidget( view );

@@ -13,6 +13,7 @@
 
 int main(int argc, char *argv[])
 {
+  srand(time(0));
   // create main event loop handler and parse command line arguments
   QApplication app(argc, argv);
 

@@ -11,6 +11,7 @@
 #include "ship.h"
 #include "scene.h"
 #include "bullet.h"
+#include "asteroids.h"
 
 /************************************ constuctor *************************************/
 
@@ -43,97 +44,75 @@ void Ship::keyPressEvent(QKeyEvent *event)
             setRotation(rotation += 30);
   }
     else if(event->key() == Qt::Key_Up){//moves ship relative to angle of rotation
-        xaccel += sin(rotation*(3.141592654/180));
-        yaccel += cos(rotation*(3.141592654/180));
+        xaccel += 2*sin(rotation*(3.141592654/180));
+        yaccel += 2*cos(rotation*(3.141592654/180));
         //limits ship speed
-        if (xaccel > 10) xaccel = 10;
-        if (yaccel > 10) yaccel = 10;
-        if (xaccel < -10) xaccel = -10;
-        if (yaccel < -10) yaccel = -10;
+        if (xaccel > 15) xaccel = 15;
+        if (yaccel > 15) yaccel = 15;
+        if (xaccel < -15) xaccel = -15;
+        if (yaccel < -15) yaccel = -15;
     }
-    else if(event->key() == Qt::Key_Space){//shoots bullet from ship (only moves up for now)
-        Bullet * bull = new Bullet();
-
+    else if(event->key() == Qt::Key_Down){
+        if(not bullets.isEmpty()){
+            scene()->removeItem(bullets[0]);
+            bullets.removeFirst();
+        }
+    }
+    else if(event->key() == Qt::Key_Space){//shoots bullet from ship
         //Set Position of the Bullet to match orientation of the ship
-            //Possibly a better way to get the same results
-        if(rotation == 0 or rotation == 360)
-            bull->setPos(x()+14,y());
-        if(rotation == 30)
-            bull->setPos(x()+13,y()+6);
-        if(rotation == 60)
-            bull->setPos(x()+14, y()+10);
-        if(rotation == 90)
-            bull->setPos(x(), y()+14);
-        if(rotation == 120)
-            bull->setPos(x()-6, y()+13);
-        if(rotation == 150)
-            bull->setPos(x()-10,y()+14);
-        if(rotation == 180)
-            bull->setPos(x()-14,y());
-        if(rotation == 210)
-            bull->setPos(x()-13,y()-6);
-        if(rotation == 240)
-            bull->setPos(x()-14,y()-10);
-        if(rotation == 270)
-            bull->setPos(x(),y()-14);
-        if(rotation == 300)
-            bull->setPos(x()+6,y()-13);
-        if(rotation == 330)
-            bull->setPos(x()+10,y()-14);
-        //End Bullet Position
-
-        bull->angle = rotation;
-        bull->setRotation(rotation);
-        if(bullets.length()<10){
+        if(bullets.length()<15){
+            Bullet * bull = new Bullet();
+            bull->setPos(x() + (cos(rotation*(3.141592654/180))) , y() + (sin(rotation*(3.141592654/180))));
+            bull->angle = rotation;
+            bull->setRotation(rotation);
             scene()->addItem(bull);
             bullets.append(bull);
+
         }
+        //Check if bullets are on the screen, then check if they are out of bounds, if they are delete them.
         if(not bullets.isEmpty()){
-            for(int i = 0;i<bullets.length(); i++){
-                if(bullets[i]->x()>xbounds/2 or bullets[i]->x()<((xbounds/2)*-1) or bullets[i]->y()>ybounds/2 or bullets[i]->y()<((ybounds/2)*-1)){
+            for(int i = 0;i<bullets.length()-1; i++){
+                if(bullets[i]->x() >= xbounds or bullets[i]->x() <= 0
+                        or bullets[i]->y() >= ybounds or bullets[i]->y()<=0){
                     bullets.removeAt(i);
                     scene()->removeItem(bullets[i]);
+                }
+                for(int j = 0; j<Scene().roids.length();j++){
+                    if(bullets[i]->collidesWithItem(Scene().roids[j])){
+                        bullets.removeAt(i);
+                        scene()->removeItem(bullets[i]);
+                        scene()->removeItem(Scene().roids[j]);
+                    }
                 }
             }
         }
     }
 }
-
 void Ship::move(){
+    setFocus();
     if((xaccel > 0 || yaccel > 0) || (xaccel < 0 || yaccel < 0)){
         setPos(x()+xaccel,y()-yaccel);
         //wraps asteroid around if it goes off screen
-        if (pos(),x() >= xbounds/2)
-           setPos(xbounds/2 - xbounds,y());
-        else if (pos(),x() <= (xbounds/2 - xbounds))
-           setPos(xbounds/2,y());
-        if (pos(),y() >= ybounds/2)
-           setPos(x(),ybounds/2 - ybounds);
-        else if (pos(),y() <= (ybounds/2 - ybounds))
-           setPos(x(),ybounds/2);
+        if (x() >= xbounds)
+           setPos(x() - xbounds,y());
+        else if (x() <= 0)
+           setPos(x() + xbounds,y());
+        if (y() >= ybounds)
+           setPos(x(),y() - ybounds);
+        else if (y() <= 0)
+           setPos(x(), y() + ybounds);
     }
 }
-
 void  Ship::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    // paint ship symbol, must be smaller than bounding rectangle
-//    QPainterPath path;
-//    painter->setRenderHint( QPainter::Antialiasing );
-//    painter->setPen( QPen( Qt::white, 2 ) );
-//    painter->drawLine(  -8,  0,  8, 0 );
-//    painter->drawLine( -8, 0,  0,  -18 );
-//    painter->drawLine( 8, 0, 0,  -18 );
-//    painter->fillPath (path, QBrush (QColor ("white")));
-
    //Creates a ship by drawing a rectangle and tracing a path
         //May create a bounds issue later when dealing with collisions (Untested)
-    QRectF rect = QRectF(0, 0, 30, 30);
+    QRectF rect = QRectF(-10, -15, 25, 30);
     QPainterPath path;
     path.moveTo(rect.left() + (rect.width() / 2), rect.top());
     path.lineTo(rect.bottomLeft());
     path.lineTo(rect.bottomRight());
     path.lineTo(rect.left() + (rect.width() / 2), rect.top());
-
     painter->fillPath(path, QBrush(QColor ("white")));
 }
 

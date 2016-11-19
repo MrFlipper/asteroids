@@ -6,11 +6,13 @@
 #include <QObject>
 #include <QDesktopWidget>
 #include <QList>
+#include <QGraphicsScene>
+//#include "scene.h"
+
 /*************************************************************************************/
 /******************* Represents an asteroid in the simulation ********************/
 /*************************************************************************************/
-
-class Asteroid : public QObject, public QGraphicsItem
+class Asteroid : public QObject, public QGraphicsItem//, public Scene
 {
     Q_OBJECT
     public:

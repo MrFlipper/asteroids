@@ -12,7 +12,7 @@ Bullet::Bullet()
 }
 void Bullet::move()//controls movement of bullet
 {
-    setPos(x() + 10*sin(angle*(3.141592654/180)),y()- 10*cos(angle*(3.141592654/180)));
+    setPos(x() + 20*sin(angle*(3.141592654/180)),y()- 20*cos(angle*(3.141592654/180)));
 }
 void Bullet::paint(QPainter* painter, const QStyleOptionGraphicsItem *option, QWidget *widget){// implement virtual paint function
     painter->setPen( QPen( Qt::white, 2 ) );

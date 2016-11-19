@@ -1,4 +1,3 @@
-
 #ifndef SCENE_H
 #define SCENE_H
 
@@ -18,10 +17,12 @@ class Scene : public QGraphicsScene
   Q_OBJECT
 public:
     Scene();                                      // constructor
-    void drawShip();//create ship in center of screen
+    void addShip();//create ship in center of screen
     Ship *s; //pointer to the ship
     QList<Asteroid*> roids; //List of Asteroids
-    void drawAsteroid(); //Draws an Asteroid
+    void addAsteroid(); //Draws an Asteroid
+    QDesktopWidget dw;
+    bool collidesWith(QGraphicsItem*, QGraphicsItem*);
 signals:
     void  message( QString );// info text message signal
 };
