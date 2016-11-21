@@ -16,13 +16,20 @@ class Scene : public QGraphicsScene
 {
   Q_OBJECT
 public:
-    Scene();                                      // constructor
+    Scene(); // constructor
     void addShip();//create ship in center of screen
     Ship *s; //pointer to the ship
     QList<Asteroid*> roids; //List of Asteroids
     void addAsteroid(); //Draws an Asteroid
-    QDesktopWidget dw;
-    bool collidesWith(QGraphicsItem*, QGraphicsItem*);
+    QDesktopWidget dw; //Size of the users screen
+    QList<Bullet*> bullets; //List of bullets on screen
+    void keyPressEvent(QKeyEvent *event); //Checks if a button is pressed
+    void collidesWith(); //Checks for collision
+    double rotation; //rotation angle of ship
+    double xaccel; //Accelleration of ship in x direction
+    double yaccel; //Accelleration of ship in y direction
+    double xbounds; //X position of ship
+    double ybounds; //Y position of ship
 signals:
     void  message( QString );// info text message signal
 };

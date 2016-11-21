@@ -7,8 +7,9 @@
 #include "mainwindow.h"
 #include "scene.h"
 
-//constructor
+/****** Constructor ******/
 MainWindow::MainWindow() : QMainWindow(){
+
   // add drop down menus
   QMenu* fileMenu = menuBar()->addMenu("&File");
   fileMenu->addAction("&New",this,SLOT(startGame()));
@@ -26,17 +27,17 @@ MainWindow::MainWindow() : QMainWindow(){
 
 }
 
-// display message on main window status bar
+/****** Display message on main window status bar ******/
 void  MainWindow::showMessage( QString msg )
 {
    statusBar()->showMessage( msg );
 }
 
-// create scene and central widget view of scene
+/****** Create scene and central widget view of scene ******/
 void MainWindow::startGame()
 {
-    m_scene               = new Scene();
-    QGraphicsView*   view = new QGraphicsView( m_scene );
+    m_scene = new Scene();
+    QGraphicsView* view = new QGraphicsView( m_scene );
     view->setAlignment( Qt::AlignLeft | Qt::AlignTop );
     view->setFrameStyle( 0 );
     m_scene->setBackgroundBrush(Qt::black);

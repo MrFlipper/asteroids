@@ -12,6 +12,7 @@
 #include "asteroids.h"
 #include "scene.h"
 
+/****** Constructor ******/
 Asteroid::Asteroid(){
     xbounds=dw.width()*0.8;
     ybounds=dw.height()*0.8;
@@ -31,7 +32,10 @@ void  Asteroid::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->drawEllipse(0,0,100,100);
 }
 
+/***** Moves the asteroid in a randomly decided angle and velocity *****/
 void Asteroid::move(){
+
+    //Set the position of the asteroid
     setPos(x()-x_move,y()-y_move);
 
     //wraps asteroid around if it goes off screen
@@ -43,20 +47,10 @@ void Asteroid::move(){
         setPos(x(),y() - ybounds);
     else if (y() <= 0)
         setPos(x(),y()+ybounds);
-
-//    if(not roids.isEmpty()){
-//        for(int i=0; i<roids.length()-1; i++){
-//            if(roids[i]->collidesWithItem(s)){
-//                removeItem(s);
-//                roids.removeAt(i);
-//                removeItem(roids[i]);
-//                //qDebug() << "Collision!!" ;
-//            }
-//        }
-//    }
 }
 
-void Asteroid::setAngle(int& x, int& y){
-    x = rand()%20-10; //Checks if X-coordinate should change
-    y = rand()%20-10; //Checks if Y-Coordinate should change
+//Sets the angle that the asteroids move and how fast they move
+void Asteroid::setAngle(int& x, int& y){   
+    x = rand()%20-10;
+    y = rand()%20-10;
 }
