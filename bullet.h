@@ -4,19 +4,19 @@
 #include <QGraphicsRectItem>
 #include <QDesktopWidget>
 #include <QtMath>
-//class for the bullet
 
+/****** Class for the bullet ******/
 class Bullet: public QObject ,public QGraphicsRectItem
 {
     Q_OBJECT
     public:
-        Bullet();
+        Bullet(); //Default Constructor
         int  angle; //angle of bullet
         QDesktopWidget dw; //Bounds of the screen
-        bool outOfBounds;
+        bool outOfBounds; //Decides if bullet is out of bounds
         void paint(QPainter*, const QStyleOptionGraphicsItem *option, QWidget *widget);// implement virtual paint function
-        QRectF   boundingRect() const
-            {return QRectF(0, 0, 0, 0);}//bounding rectangle allowing no screen movement
+        QRectF   boundingRect() const//bounding rectangle allowing no screen movement
+            {return QRectF(0, 0, 0, 0);}
     public slots:
         void move();
 };

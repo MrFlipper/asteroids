@@ -9,6 +9,7 @@
 #include <QList>
 #include <QTimer>
 #include <QObject>
+#include <typeinfo>
 #include "asteroids.h"
 #include "scene.h"
 
@@ -17,12 +18,9 @@ Asteroid::Asteroid(){
     xbounds=dw.width()*0.8;
     ybounds=dw.height()*0.8;
     setAngle(x_move, y_move);
-
     QTimer *times = new QTimer();//checks for movement of asteroid based on time
     connect(times,SIGNAL(timeout()),this,SLOT(move()));
     times->start(50);
-
-
 }
 
 void  Asteroid::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
@@ -34,7 +32,6 @@ void  Asteroid::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
 /***** Moves the asteroid in a randomly decided angle and velocity *****/
 void Asteroid::move(){
-
     //Set the position of the asteroid
     setPos(x()-x_move,y()-y_move);
 

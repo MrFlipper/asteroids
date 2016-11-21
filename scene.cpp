@@ -2,6 +2,8 @@
 #include <QMainWindow>
 #include <QDebug>
 #include <QKeyEvent>
+#include <QGraphicsItem>
+#include <QGraphicsScene>
 #include "asteroids.h"
 #include "scene.h"
 #include "ship.h"
@@ -58,20 +60,20 @@ void Scene::keyPressEvent(QKeyEvent *event)
 {
     //rotates left by subracting from rotation angle
     if(event->key() == Qt::Key_Left){
-        if(rotation == 0) rotation = 360;
-        s->setRotation(rotation -= 30);
+        if(s->rotation == 0) s->rotation = 360;
+        s->setRotation(s->rotation -= 30);
     }
 
     //rotates right by adding to rotation angle
     else if(event->key() == Qt::Key_Right){
-        if(rotation == 360) rotation = 0;
-            s->setRotation(rotation += 30);
+        if(s->rotation == 360) s->rotation = 0;
+            s->setRotation(s->rotation += 30);
     }
 
     //moves ship relative to angle of rotation
     else if(event->key() == Qt::Key_Up){
-        s->xaccel += 2*sin(rotation*(3.141592654/180));
-        s->yaccel += 2*cos(rotation*(3.141592654/180));
+        s->xaccel += 2*sin(s->rotation*(3.141592654/180));
+        s->yaccel += 2*cos(s->rotation*(3.141592654/180));
         //limits ship speed
         if (s->xaccel > 15) s->xaccel = 15;
         if (s->yaccel > 15) s->yaccel = 15;
@@ -88,9 +90,9 @@ void Scene::keyPressEvent(QKeyEvent *event)
             Bullet * bull = new Bullet();
 
             //Set Position of the Bullet to match orientation of the ship
-            bull->setPos(s->x() + (cos(rotation*(3.141592654/180))) , s->y() + (sin(rotation*(3.141592654/180))));
-            bull->angle = rotation;
-            bull->setRotation(rotation);
+            bull->setPos(s->x() + (cos(s->rotation*(3.141592654/180))) , s->y() + (sin(s->rotation*(3.141592654/180))));
+            bull->angle = s->rotation;
+            bull->setRotation(s->rotation);
 
             //Add bullet to scene and list of bullets
             addItem(bull);

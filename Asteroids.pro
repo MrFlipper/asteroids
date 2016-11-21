@@ -26,3 +26,4 @@ HEADERS  += mainwindow.h \
     asteroids.h
 
 FORMS    += mainwindow.ui
+QMAKE_CXXFLAGS_WARN_ON += -Wno-unused-parameter

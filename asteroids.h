@@ -1,13 +1,11 @@
 #ifndef ASTEROIDS_H
 #define ASTEROIDS_H
-#include <QPolygon>
 #include <QGraphicsItem>
 #include <QTimer>
 #include <QObject>
 #include <QDesktopWidget>
 #include <QList>
 #include <QGraphicsScene>
-//#include "scene.h"
 
 /*************************************************************************************/
 /******************* Represents an asteroid in the simulation ********************/
@@ -18,15 +16,15 @@ class Asteroid : public QObject, public QGraphicsItem//, public Scene
     public:
         Asteroid(); //default constructor
         void  paint( QPainter*, const QStyleOptionGraphicsItem*, QWidget* );
-        QRectF    boundingRect() const{ //bounding rectangle allowing no screen movement
+        QDesktopWidget dw; //Size of users screen
+        double xbounds; //Xbounds of window
+        double ybounds; //Ybounds of window
+        void setAngle(int& x, int& y); //Decides which direction astroid flys
+        int x_move; //How the asteroid moves in x direction
+        int y_move; //How the asteroid moves in y direction
+        QRectF boundingRect() const{ //bounding rectangle allowing no screen movement
             return QRectF(0,0,0,0);
         }
-        double xbounds;
-        double ybounds;
-        QDesktopWidget dw;
-        void setAngle(int& x, int& y); //Decides which direction astroid flys (Glitchy)
-        int x_move;
-        int y_move;
     public slots:
         void move();
 };

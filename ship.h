@@ -1,11 +1,11 @@
 #ifndef SHIP_H
 #define SHIP_H
 
-#include "bullet.h"
 #include <QList>
 #include <QObject>
 #include <QGraphicsItem>
 #include <QDesktopWidget>
+#include "bullet.h"
 /*************************************************************************************/
 /******************* Represents a ship in the simulation ********************/
 /*************************************************************************************/
@@ -21,8 +21,8 @@ public:
     double xaccel; //Accelleration in x direction
     double yaccel; //Accelleration in y direction
     QDesktopWidget dw; //Bounds of the screen
-    double xbounds; //X position of ship
-    double ybounds; //Y position of ship
+    double xbounds; //X bounds of screen
+    double ybounds; //Y bounds of screen
     void paint(QPainter*, const QStyleOptionGraphicsItem *option, QWidget *widget);// implement virtual paint function
     QRectF   boundingRect() const
     { return QRectF(0, 0, 0, 0);//bounding rectangle allowing no screen movement
