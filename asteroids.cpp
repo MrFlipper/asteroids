@@ -33,13 +33,13 @@ void  Asteroid::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     origin.setY(1);
     painter->setRenderHint( QPainter::Antialiasing );
     painter->setPen( QPen( Qt::white, 2 ) );
-    painter->drawEllipse(origin,50,50);
-   /* if(size == 3)
+    //painter->drawEllipse(origin,50,50);
+    if(size == 2)
         painter->drawEllipse(origin,60,60);
-    else if(size == 2)
-        painter->drawEllipse(origin,30,30);
     else if(size == 1)
-        painter->drawEllipse(origin,15,15);*/
+        painter->drawEllipse(origin,30,30);
+    else if(size == 0)
+        painter->drawEllipse(origin,15,15);
 
 }
 

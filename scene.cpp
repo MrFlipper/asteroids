@@ -150,12 +150,10 @@ void Scene::collidesWith(){
                 s->dead=true;
                 removeItem(s);
                 //remove asteroid from scene and list and set hit variable to true
-                qDebug() << "Roids length before deletion: "<<roids.length()<<endl;
+
                 roids[i]->hit = true;
-                qDebug() <<"Index to be deleted: "<<i<<endl;
                 removeItem(roids[i]);
                 roids.removeAt(i);
-                qDebug() <<"Roids length after deletion: "<<roids.length()<<endl;
             }
             //Check if list of bullets isn't empty
             if(not bullets.isEmpty()){
@@ -164,18 +162,14 @@ void Scene::collidesWith(){
                     dist=(qAbs(bullets[j]->x()-roids[i]->x()) + qAbs(bullets[j]->y()-roids[i]->y()))/2;
                     //If distance is less than 42 delete bullet and asteroid
                     if(dist<42){
-                        qDebug() << "Bullets length before deletion: "<<bullets.length()<<endl;
+
                         bullets[j]->collided = true;
-                        qDebug() << "Bullet index to be deleted: "<<j<<endl;
                         removeItem(bullets[j]);
                         bullets.removeAt(j);
-                        qDebug() << "Bullets length after deletion: "<<bullets.length()<<endl;
-                        qDebug() << "Asteroids length before deletion: "<<roids.length()<<endl;
-                        qDebug() << "Index of asteroid to be deleted: "<<i<<endl;
+
                         roids[i]->hit = true;
                         removeItem(roids[i]);
                         roids.removeAt(i);
-                        qDebug() << "Asteroids length after deletion: "<<roids.length()<<endl;
                     }
                 }
             }
