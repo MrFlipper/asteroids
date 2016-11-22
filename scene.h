@@ -23,7 +23,7 @@ public:
     QList<Bullet*> bullets; //List of bullets on screen
     void addAsteroid(); //Draws an Asteroid
     QDesktopWidget dw; //Size of the users screen
-    void splitAsteroid(int);
+    void splitAsteroid(Asteroid*);
     void keyPressEvent(QKeyEvent *event); //Checks if a button is pressed
 signals:
     void  message( QString );// info text message signal
