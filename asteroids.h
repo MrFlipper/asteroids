@@ -20,6 +20,8 @@ class Asteroid : public QObject, public QGraphicsItem//, public Scene
         double xbounds; //Xbounds of window
         double ybounds; //Ybounds of window
         void setAngle(int& x, int& y); //Decides which direction astroid flys
+        bool hit;
+        int size;
         int x_move; //How the asteroid moves in x direction
         int y_move; //How the asteroid moves in y direction
         QRectF boundingRect() const{ //bounding rectangle allowing no screen movement

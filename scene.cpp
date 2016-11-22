@@ -1,16 +1,20 @@
+/*************************************************************************************/
+
+/******************* Represents the scene of the simulation **************************/
+
+/*************************************************************************************/
 #include <QTimer>
 #include <QMainWindow>
 #include <QDebug>
 #include <QKeyEvent>
 #include <QGraphicsItem>
 #include <QGraphicsScene>
+#include <QtGlobal>
+
 #include "asteroids.h"
 #include "scene.h"
 #include "ship.h"
 #include "mainwindow.h"
-
-
-// scene simulates landscape
 
 /****** Constructor ******/
 Scene::Scene() : QGraphicsScene()
@@ -22,7 +26,12 @@ Scene::Scene() : QGraphicsScene()
     addAsteroid();
   QTimer * timer = new QTimer();
   connect(timer,SIGNAL(timeout()),this,SLOT(update()));//refreshes screen on a timer
-  timer->start(33.33);
+  timer->start(50);
+
+  QTimer * time = new QTimer();
+  connect(time,SIGNAL(timeout()),this,SLOT(collidesWith()));//refreshes screen on a timer
+  time->start(50);
+
 }
 
 /***** Adds ship to the scene *****/
@@ -42,17 +51,27 @@ void Scene::addShip(){
 
 /***** Creates an asteroid and adds it to the scene *****/
 void Scene::addAsteroid(){
+    int coord_x, coord_y;
     //Create new Asteroid named "ast"
     Asteroid * ast = new Asteroid;
-
     // Set coordinates of asteroid to random position
-    int coord_x = rand()%dw.width()*0.8;
-    int coord_y = rand()%dw.height()*0.8;
+    int zero = rand()%2-1;
+    if(zero == 1){
+        coord_x = rand()%dw.width()*0.8;
+        coord_y = 0;
+
+    }
+    else{
+        coord_x = 0;
+        coord_y = rand()%dw.height()*0.8;
+    }
+
     ast->setPos(coord_x, coord_y);
 
     //Add Asteroid to scene and list
     addItem(ast);
     roids.append(ast);
+
 }
 
 /********* Controls Ship by checking if certain keys have been pressed **********/
@@ -80,12 +99,16 @@ void Scene::keyPressEvent(QKeyEvent *event)
         if (s->xaccel < -15) s->xaccel = -15;
         if (s->yaccel < -15) s->yaccel = -15;
     }
-
+    else if(event->key() == Qt::Key_Down){
+        int dist = (qAbs(s->x() - roids[0]->x()) + qAbs(s->y() - roids[0]->y()));
+        qDebug() << "Estimated Distance: " << dist<< endl<<roids.length();
+    }
     //shoots bullet from ship
     else if(event->key() == Qt::Key_Space){
 
         //If there is less than 15 bullets on screen add one.
         if(bullets.length()<15){
+
             //Create new bullet
             Bullet * bull = new Bullet();
 
@@ -102,20 +125,63 @@ void Scene::keyPressEvent(QKeyEvent *event)
         //Check if bullets are on the screen, then check if they are out of bounds, if they are delete them.
         if(not bullets.isEmpty()){
             for(int i = 0;i<bullets.length()-1; i++){
-               if(bullets[i]->outOfBounds == true)
+               if(bullets[i]->outOfBounds == true){
+                   delete bullets[i];
                    bullets.removeAt(i);
+               }
             }
         }
     }
 }
 
-/***** Checks for collision between ship and asteroids ******/
+/***** Checks for collision between ship, bullets, and asteroids ******/
 void Scene::collidesWith(){
-    for(int i = 0; i<roids.length()-1; i++){
-        if(s->x() == roids[i]->x() && s->y() == roids[i]->y()){
-            removeItem(s);
-            removeItem(roids[i]);
-            roids.removeAt(i);
+    int dist;
+    //Check if asteroids are on screen
+    if(not roids.isEmpty()){
+        for(int i = 0; i<=roids.length()-1;i++){
+            //Estimate distance between ship and asteroids
+            dist = (qAbs(s->x() - roids[i]->x()) + qAbs(s->y() - roids[i]->y()))/2;
+            //If estimated distance is less than 42 delete ship and asteroid
+            if(dist<42 and s->dead == false){
+                s->dead=true;
+                removeItem(s);
+                removeItem(roids[i]);
+                roids.removeAt(i);
+                return;
+            }
+            //Check if list of bullets arent empty
+            if(not bullets.isEmpty()){
+                for(int j = 0; j<=bullets.length()-1; j++){
+                    //Estimate distance between bullet and asteroids
+                    dist=(qAbs(bullets[j]->x()-roids[i]->x()) + qAbs(bullets[j]->y()-roids[i]->y()))/2;
+                    //If distance is less than 42 delete bullet and asteroid
+                    if(dist<42){
+                        bullets[j]->collided = true;
+                        removeItem(bullets[j]);
+                        bullets.removeAt(j);
+
+                        roids[i]->hit = true;
+                        removeItem(roids[i]);
+                        if(roids[i]->size == 1)
+                            roids.removeAt(i);
+                        else{
+                            //splitAsteroid(roids[i]->size);
+                            roids.removeAt(i);
+                        }
+                    }
+                }
+            }
         }
     }
+    // If no asteroids on screen, add 5 more
+    else{
+        for(int i = 0; i<5; i++)
+            addAsteroid();
+    }
 }
+
+/****** Checks size of asteroid then splits or destroys accordingly ******/
+/*void splitAsteroid(int size){
+    qDebug()<<"Split!";
+}*/

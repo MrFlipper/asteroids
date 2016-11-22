@@ -1,4 +1,5 @@
 /*************************************************************************************/
+
 /******************* Represents a ship in the simulation *****************************/
 /*************************************************************************************/
 #include <QPainter>
@@ -15,6 +16,9 @@
 
 Ship::Ship( qreal x, qreal y ) : QGraphicsItem()
 {
+    //Set Focus on the ship
+    setFlag(QGraphicsItem::ItemIsFocusable);
+    setFocus();
     // Set Ship pixmap and position
     setPos( x, y );
 
@@ -40,24 +44,24 @@ Ship::Ship( qreal x, qreal y ) : QGraphicsItem()
 /****** Moves the ship ******/
 void Ship::move(){
 
-    //Set Focus on the ship
-    setFocus();
+    if(not dead){
 
-    //Sets position based on the acceleration of the ship
-    if((xaccel > 0 || yaccel > 0) || (xaccel < 0 || yaccel < 0)){
-        setPos(x()+xaccel,y()-yaccel);
 
-        //wraps asteroid around if it goes off screen
-        if (x() >= xbounds)
-           setPos(x() - xbounds,y());
-        else if (x() <= 0)
-           setPos(x() + xbounds,y());
-        if (y() >= ybounds)
-           setPos(x(),y() - ybounds);
-        else if (y() <= 0)
-           setPos(x(), y() + ybounds);
+        //Sets position based on the acceleration of the ship
+        if((xaccel > 0 || yaccel > 0) || (xaccel < 0 || yaccel < 0)){
+            setPos(x()+xaccel,y()-yaccel);
+
+            //wraps asteroid around if it goes off screen
+            if (x() >= xbounds)
+                setPos(x() - xbounds,y());
+            else if (x() <= 0)
+                setPos(x() + xbounds,y());
+            if (y() >= ybounds)
+                setPos(x(),y() - ybounds);
+            else if (y() <= 0)
+                setPos(x(), y() + ybounds);
+        }
     }
-
 }
 
 /****** Creates a ship by drawing a rectangle and tracing a path ******/

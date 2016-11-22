@@ -16,7 +16,7 @@ class Ship : public QObject, public QGraphicsItem
 public:
     Ship();//default constructor
     Ship(qreal, qreal);// constructor
-    bool death; //Decides if ship is stiil alive
+    bool dead; //Decides if ship is stiil alive
     double rotation; //rotation angle
     double xaccel; //Accelleration in x direction
     double yaccel; //Accelleration in y direction

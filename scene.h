@@ -20,13 +20,15 @@ public:
     void addShip();//create ship in center of screen
     Ship *s; //pointer to the ship
     QList<Asteroid*> roids; //List of Asteroids
+    QList<Bullet*> bullets; //List of bullets on screen
     void addAsteroid(); //Draws an Asteroid
     QDesktopWidget dw; //Size of the users screen
-    QList<Bullet*> bullets; //List of bullets on screen
+    void splitAsteroid(int);
     void keyPressEvent(QKeyEvent *event); //Checks if a button is pressed
-    void collidesWith(); //Checks for collision
 signals:
     void  message( QString );// info text message signal
+public slots:
+    void collidesWith(); //Checks for collision
 };
 
 #endif  // SCENE_H

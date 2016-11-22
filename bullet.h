@@ -14,6 +14,7 @@ class Bullet: public QObject ,public QGraphicsRectItem
         int  angle; //angle of bullet
         QDesktopWidget dw; //Bounds of the screen
         bool outOfBounds; //Decides if bullet is out of bounds
+        bool collided;
         void paint(QPainter*, const QStyleOptionGraphicsItem *option, QWidget *widget);// implement virtual paint function
         QRectF   boundingRect() const//bounding rectangle allowing no screen movement
             {return QRectF(0, 0, 0, 0);}
