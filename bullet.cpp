@@ -16,7 +16,6 @@
 Bullet::Bullet()
 {
     collided = false;
-    outOfBounds=false;
     QTimer *timer = new QTimer();
     connect(timer,SIGNAL(timeout()),this,SLOT(move()));//does movement based on a timer
     timer->start(50);
@@ -29,19 +28,13 @@ void Bullet::move()
     if(not collided){
         //Check if bullet is off screen and deletes it if it is
         if(x() >= dw.width()*0.8 or x() <= 0 or y() >= dw.height()*0.8 or y() <= 0){
-            outOfBounds = true;
             collided = true;
-            if(outOfBounds){
-                scene()->removeItem(this);
-                //delete this;
-                return;
-            }
+            scene()->removeItem(this);
+            return;
         }
         //Move the bullet with respect to its angle
         setPos(x() + 20*sin(angle*(3.141592654/180)),y()- 20*cos(angle*(3.141592654/180)));
     }
-    else
-        return;
 }
 void Bullet::paint(QPainter* painter, const QStyleOptionGraphicsItem *option, QWidget *widget)// implement virtual paint function
 {

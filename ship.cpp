@@ -45,8 +45,6 @@ Ship::Ship( qreal x, qreal y ) : QGraphicsItem()
 void Ship::move(){
 
     if(not dead){
-
-
         //Sets position based on the acceleration of the ship
         if((xaccel > 0 || yaccel > 0) || (xaccel < 0 || yaccel < 0)){
             setPos(x()+xaccel,y()-yaccel);
