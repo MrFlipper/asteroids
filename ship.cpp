@@ -7,6 +7,7 @@
 #include <QTimer>
 #include <QObject>
 #include <QtMath>
+
 #include "ship.h"
 #include "scene.h"
 #include "bullet.h"
@@ -43,7 +44,6 @@ Ship::Ship( qreal x, qreal y ) : QGraphicsItem()
 
 /****** Moves the ship ******/
 void Ship::move(){
-
     if(not dead){
         //Sets position based on the acceleration of the ship
         if((xaccel > 0 || yaccel > 0) || (xaccel < 0 || yaccel < 0)){
@@ -61,7 +61,6 @@ void Ship::move(){
         }
     }
 }
-
 /****** Creates a ship by drawing a rectangle and tracing a path ******/
 void  Ship::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
 

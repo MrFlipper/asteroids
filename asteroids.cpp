@@ -58,6 +58,8 @@ void Asteroid::move(){
         else if (y() <= 0)
             setPos(x(),y()+ybounds);
     }
+    else
+        return;
 }
 
 /****** Sets the angle that the asteroids move and how fast they move ******/

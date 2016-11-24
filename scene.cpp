@@ -22,7 +22,7 @@ Scene::Scene() : QGraphicsScene()
   // create invisible item to provide default top-left anchor to scene
   addLine( 0, 0, 0, 1, QPen(Qt::transparent, 1) );
   addShip();
-  for(int i = 0;i<3;i++)
+  for(int i = 0;i<5;i++)
     addAsteroid();
   QTimer * timer = new QTimer();
   connect(timer,SIGNAL(timeout()),this,SLOT(update()));//refreshes screen on a timer
@@ -58,11 +58,11 @@ void Scene::addAsteroid(){
     int zero = rand()%2  ;
     if(zero == 1){
         coord_x = rand()%dw.width()*0.8;
-        coord_y = 0;
+        coord_y = 1     ;
 
     }
     else{
-        coord_x = 0;
+        coord_x = 1;
         coord_y = rand()%dw.height()*0.8;
     }
 
@@ -94,21 +94,22 @@ void Scene::keyPressEvent(QKeyEvent *event)
         else if(event->key() == Qt::Key_Up){
             s->xaccel += 2*sin(s->rotation*(3.141592654/180));
             s->yaccel += 2*cos(s->rotation*(3.141592654/180));
+
             //limits ship speed
             if (s->xaccel > 15) s->xaccel = 15;
             if (s->yaccel > 15) s->yaccel = 15;
             if (s->xaccel < -15) s->xaccel = -15;
             if (s->yaccel < -15) s->yaccel = -15;
         }
-        else if(event->key() == Qt::Key_Down){
-            int dist = (qAbs(s->x() - roids[0]->x()) + qAbs(s->y() - roids[0]->y()));
-            qDebug() << "Estimated Distance: " << dist<< endl<<roids.length();
-        }
+//        else if(event->key() == Qt::Key_Down){
+//            int dist = (qAbs(s->x() - roids[0]->x()) + qAbs(s->y() - roids[0]->y()));
+//            qDebug() << "Estimated Distance: " << dist<< endl<<roids.length();
+//        }
         //shoots bullet from ship
         else if(event->key() == Qt::Key_Space){
 
             //If there is less than 15 bullets on screen add one.
-            if(bullets.length()<15){
+            if(bullets.length()<3){
 
                 //Create new bullet
                 Bullet * bull = new Bullet();
@@ -136,8 +137,11 @@ void Scene::keyPressEvent(QKeyEvent *event)
     }
 }
 
-/***** Checks for collision between ship, bullets, and asteroids ******/
+/****** Checks for collision between ship, bullets, and asteroids ******/
 void Scene::collidesWith(){
+    //Dist is the estimated distance between two objects on the screen.
+    //i and j are indixes for the for loops
+    //hitDist is the error allowed for the distance between two objects
     int dist, i, j, hitDist;
     //Check if asteroids are on screen
     if(not roids.isEmpty()){
@@ -150,18 +154,17 @@ void Scene::collidesWith(){
                     hitDist = 25;
                     break;
                 case 0:
-                    hitDist = 10;
+                    hitDist = 15 ;
                     break;
             }
             //Estimate distance between ship and asteroids
             dist = (qAbs(s->x() - roids[i]->x()) + qAbs(s->y() - roids[i]->y()))/2;
             //If estimated distance is less than 42 delete ship and asteroid
-            if(dist<hitDist and s->dead == false){
+            if(dist <= hitDist and s->dead == false){
                 //Kill the ship and remove it from the scene
                 s->dead=true;
                 removeItem(s);
                 //remove asteroid from scene and list and set hit variable to true
-
                 roids[i]->hit = true;
                 removeItem(roids[i]);
                 roids.removeAt(i);
@@ -169,25 +172,28 @@ void Scene::collidesWith(){
             //Check if list of bullets isn't empty
             if(not bullets.isEmpty()){
                 for(j = 0; j<=bullets.length()-1; j++){
-                    //Estimate distance between bullet and asteroids
-                    dist=(qAbs(bullets[j]->x()-roids[i]->x()) + qAbs(bullets[j]->y()-roids[i]->y()))/2;
-                    //If distance is less than 42 delete bullet and asteroid
-                    if(dist<hitDist){
-                        //Set bullets collided varible to true, remove it from scene and list
-                        bullets[j]->collided = true;
-                        removeItem(bullets[j]);
-                        bullets.removeAt(j);
+                    if(roids.length()>=i and roids[i]->hit == false){
+                        //Estimate distance between bullet and asteroids
+                        dist=(qAbs(bullets[j]->x()-roids[i]->x()) + qAbs(bullets[j]->y()-roids[i]->y()))/2;
+                        //If distance is less than 42 delete bullet and asteroid
+                        if(dist<=hitDist){
 
-                        roids[i]->hit = true;
-                        //Check if roid[i] is the smallest asteroid, if not it splits it.
-                        if(roids[i]->size != 0){
+                            //Set bullets collided varible to true, remove it from scene and list
+                            bullets[j]->collided = true;
+                            removeItem(bullets[j]);
+                            bullets.removeAt(j);
+
+                            //Set roids hit variable to true and remove it from the scene
+                            roids[i]->hit = true;
                             removeItem(roids[i]);
-                            splitAsteroid(roids[i]);
-                            roids.removeAt(i);
-                        }
-                        else{
-                            removeItem(roids[i]);
-                            roids.removeAt(i);
+
+                            //Check if roid[i] is the smallest asteroid, if not it splits it.
+                            if(roids[i]->size != 0){
+                                splitAsteroid(roids[i]);
+                                roids.removeAt(i);
+                            }
+                            else
+                                roids.removeAt(i);
                         }
                     }
                 }
@@ -200,7 +206,6 @@ void Scene::collidesWith(){
             addAsteroid();
     }
 }
-
 /****** Checks size of asteroid then splits or destroys accordingly ******/
 void Scene::splitAsteroid(Asteroid* roid){
     //Create two new asteroids called split
@@ -208,8 +213,9 @@ void Scene::splitAsteroid(Asteroid* roid){
         Asteroid* split = new Asteroid;
         //Set their position and rotation based off of parent asteroid
         split->setPos(roid->pos());
-        split->setRotation(roid->rotation()*90);
+        split->setAngle(roid->x_move, roid->y_move);
         split->size = roid->size-1;
+
         //Add new child asteroid to list and scene
         roids.append(split);
         addItem(split);

@@ -18,7 +18,7 @@ Bullet::Bullet()
     collided = false;
     QTimer *timer = new QTimer();
     connect(timer,SIGNAL(timeout()),this,SLOT(move()));//does movement based on a timer
-    timer->start(50);
+    timer->start(20);
 
 }
 
@@ -35,10 +35,12 @@ void Bullet::move()
         //Move the bullet with respect to its angle
         setPos(x() + 20*sin(angle*(3.141592654/180)),y()- 20*cos(angle*(3.141592654/180)));
     }
+    else
+        return;
 }
 void Bullet::paint(QPainter* painter, const QStyleOptionGraphicsItem *option, QWidget *widget)// implement virtual paint function
 {
     painter->setPen( QPen( Qt::white, 2 ) );
-    painter->drawRect(0,0,2,15);//the bullet
+    painter->drawRect(0,0,2,5);//the bullet
 }
 
