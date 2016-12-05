@@ -21,6 +21,7 @@ Asteroid::Asteroid(){
     xbounds=dw.width()*0.8;
     ybounds=dw.height()*0.8;
     setAngle(x_move, y_move);
+    minMove = 5;
     QTimer *times = new QTimer();//checks for movement of asteroid based on time
     connect(times,SIGNAL(timeout()),this,SLOT(move()));
     times->start(50);
@@ -32,7 +33,7 @@ void  Asteroid::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     origin.setX(1);
     origin.setY(1);
     painter->setRenderHint( QPainter::Antialiasing );
-    painter->setPen( QPen( Qt::white, 2 ) );
+    painter->setPen( QPen( Qt::white, 5 ) );
     if(size == 2)
         painter->drawEllipse(origin,60,60);
     else if(size == 1)
@@ -45,6 +46,14 @@ void  Asteroid::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 /***** Moves the asteroid in a randomly decided angle and velocity *****/
 void Asteroid::move(){
     if(not hit){
+        if(y_move<0 and y_move>minMove*-1)
+            y_move = minMove*-1;
+        else if(y_move>0 and y_move<minMove)
+            y_move = minMove;
+        if(x_move<0 and x_move>minMove*-1)
+            x_move = minMove *-1;
+        else if(x_move>0 and x_move<minMove)
+            x_move = minMove;
         //Set the position of the asteroid
         setPos(x()-x_move,y()-y_move);
 

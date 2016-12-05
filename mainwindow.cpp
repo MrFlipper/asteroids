@@ -25,6 +25,9 @@ MainWindow::MainWindow() : QMainWindow(){
   // add status bar message
   statusBar()->showMessage("Game has started");
 
+  if(m_scene->over)
+      statusBar()->showMessage(m_scene->itsAllOver);
+
 }
 
 /****** Display message on main window status bar ******/

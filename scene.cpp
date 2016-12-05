@@ -10,6 +10,8 @@
 #include <QGraphicsItem>
 #include <QGraphicsScene>
 #include <QtGlobal>
+#include <QGraphicsPixmapItem>
+#include <QStatusBar>
 
 #include "asteroids.h"
 #include "scene.h"
@@ -22,6 +24,10 @@ Scene::Scene() : QGraphicsScene()
   // create invisible item to provide default top-left anchor to scene
   addLine( 0, 0, 0, 1, QPen(Qt::transparent, 1) );
   addShip();
+  s->setFocus();
+  level = 1;
+  over = false;
+  nextLevel = false;
   for(int i = 0;i<5;i++)
     addAsteroid();
   QTimer * timer = new QTimer();
@@ -55,7 +61,12 @@ void Scene::addAsteroid(){
     //Create new Asteroid named "ast"
     Asteroid * ast = new Asteroid;
     // Set coordinates of asteroid to random position
-    int zero = rand()%2  ;
+    int zero = rand()%2;
+
+    if(nextLevel){
+        level++;
+        ast->minMove*=2;
+    }
     if(zero == 1){
         coord_x = rand()%dw.width()*0.8;
         coord_y = 1     ;
@@ -162,17 +173,18 @@ void Scene::collidesWith(){
             //If estimated distance is less than 42 delete ship and asteroid
             if(dist <= hitDist and s->dead == false){
                 //Kill the ship and remove it from the scene
-                s->dead=true;
-                removeItem(s);
+                //s->dead=true;
+                //removeItem(s);
+                gameOver();
                 //remove asteroid from scene and list and set hit variable to true
-                roids[i]->hit = true;
-                removeItem(roids[i]);
-                roids.removeAt(i);
+                //roids[i]->hit = true;
+                //removeItem(roids[i]);
+                //roids.removeAt(i);
             }
             //Check if list of bullets isn't empty
-            if(not bullets.isEmpty()){
+            if(not bullets.isEmpty() and roids.length()>=i){
                 for(j = 0; j<=bullets.length()-1; j++){
-                    if(roids.length()>=i and roids[i]->hit == false){
+                    //if(roids.length()>=i and roids[i]->hit == false){
                         //Estimate distance between bullet and asteroids
                         dist=(qAbs(bullets[j]->x()-roids[i]->x()) + qAbs(bullets[j]->y()-roids[i]->y()))/2;
                         //If distance is less than 42 delete bullet and asteroid
@@ -199,9 +211,10 @@ void Scene::collidesWith(){
                 }
             }
         }
-    }
+    //}
     // If no asteroids on screen, add 5 more
-    else{
+    else if(not s->dead){
+        nextLevel = true;
         for(i = 0; i<5; i++)
             addAsteroid();
     }
@@ -213,6 +226,14 @@ void Scene::splitAsteroid(Asteroid* roid){
         Asteroid* split = new Asteroid;
         //Set their position and rotation based off of parent asteroid
         split->setPos(roid->pos());
+        /*if(i==0){
+            split->x_move = roid ->x_move/2;
+            split->y_move = roid ->y_move;
+        }
+        else{
+            split->x_move = roid ->x_move;
+            split->y_move = roid ->y_move/2;
+        }*/
         split->setAngle(roid->x_move, roid->y_move);
         split->size = roid->size-1;
 
@@ -220,4 +241,21 @@ void Scene::splitAsteroid(Asteroid* roid){
         roids.append(split);
         addItem(split);
     }
+}
+void Scene::gameOver(){
+    over = true;
+    s->dead=true;
+    removeItem(s);
+    while(not roids.isEmpty()){
+        removeItem(roids.first());
+        roids.first()->hit = true;
+        roids.removeFirst();
+    }
+    while(not bullets.isEmpty()){
+        removeItem(bullets.first());
+        bullets.first()->collided = true;
+        bullets.removeFirst();
+    }
+    itsAllOver="Game Over! You reached level: ";
+    itsAllOver+=level;
 }

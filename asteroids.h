@@ -24,6 +24,7 @@ class Asteroid : public QObject, public QGraphicsItem//, public Scene
         int size;
         int x_move; //How the asteroid moves in x direction
         int y_move; //How the asteroid moves in y direction
+        int minMove; //Minimum speed of asteroids
         QRectF boundingRect() const{ //bounding rectangle allowing no screen movement
             return QRectF(0,0,0,0);
         }
